@@ -19,7 +19,7 @@ _It is a simple node express backend for shopping list mobile App_
   npm install
 ```
 
-# Navigate to localhost:8080/login to ensure server is running correctly
+#### Navigate to localhost:8080/login to ensure server is running correctly
 
 # Application environment variables
 
