@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   backend:
-    image: listitup
+    image: ghcr.io/suprincesu/test-server-ghcr:latest
     env_file:
       - .env
     ports:
