@@ -4,6 +4,7 @@ import User from '../users/user.model';
 import httpStatus from 'http-status';
 import { IChangePassword, IUser } from './user.interface';
 import * as bcryptUtil from '../../core/utils/bcrypt.util';
+import { deleteFile } from '../../core/utils/file.util';
 
 export const getUserProfile = async (userId: string) => {
 	try {
@@ -32,6 +33,30 @@ export const updatePassword = async (userId: string, body: IChangePassword) => {
 		} else {
 			throw new AppError(httpStatus.BAD_REQUEST, "Old password doesn't match current password");
 		}
+	} catch (e) {
+		throw new AppError(httpStatus.BAD_REQUEST, e);
+	}
+};
+
+export const updateUserAvatar = async (userId: string, path: string) => {
+	try {
+		const user = await User.findById(userId);
+		if (!user) {
+			throw new AppError(httpStatus.NOT_FOUND, `User with id=${userId} not found`);
+		}
+
+		if (user.image) {
+			deleteFile(user.image);
+		}
+
+		const updatedUser = await User.findByIdAndUpdate(
+			userId,
+			{
+				image: path,
+			},
+			{ new: true, runValidators: true }
+		);
+		return updatedUser;
 	} catch (e) {
 		throw new AppError(httpStatus.BAD_REQUEST, e);
 	}

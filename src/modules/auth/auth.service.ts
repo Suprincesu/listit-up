@@ -18,7 +18,7 @@ export const handleSignup = async (data: IAuthDTO) => {
 			password: data.password,
 		});
 		const token: string = createToken(user);
-		return { user, token };
+		return { user: user.toJSON(), token };
 	} catch (e) {
 		throw new AppError(httpStatus.BAD_REQUEST, e);
 	}
@@ -33,5 +33,5 @@ export const handleLogin = async (data: IAuthDTO) => {
 		throw new AppError(httpStatus.UNAUTHORIZED, 'Invalid credentials');
 	}
 	const token = createToken(user);
-	return { user, token };
+	return { user: user.toJSON(), token };
 };

@@ -10,9 +10,14 @@ import errorHandlerUtil from '../core/utils/error-handler.util';
 import errorHandling from '../core/middleware/errorHandling.middleware';
 import { corsOption } from './cors.config';
 import { setUpSocket } from './socket.config';
+import * as path from 'path';
 
 const app: Application = express();
 const databaseURL = process.env.DATABASE_URI;
+
+// Specifying public path
+const publicPath = path.join(__dirname, '../', '../', 'public');
+app.use(express.static(publicPath));
 
 // Registering Middlewares
 app.use(cors(corsOption));

@@ -4,6 +4,7 @@ import * as UserService from './user.service';
 import httpStatus from 'http-status';
 import { IGetUserRequest } from '../../core/interfaces/user-request.interface';
 import { IChangePassword } from './user.interface';
+import { saveFile } from '../../core/utils/file.util';
 
 export const getProfile = asyncWrapper(async (req: IGetUserRequest, res: Response) => {
 	const { userId } = req;
@@ -22,6 +23,18 @@ export const changePassword = asyncWrapper(async (req: IGetUserRequest, res: Res
 	res.status(httpStatus.OK).json({
 		ok: true,
 		message: 'Password updated successfully',
+	});
+});
+
+export const updateAvatar = asyncWrapper(async (req: IGetUserRequest, res: Response) => {
+	const { userId } = req;
+	const { avatar } = req.files as { avatar: Express.Multer.File[] };
+	const data = await saveFile(avatar, 'avatars');
+	const user = await UserService.updateUserAvatar(userId, data[0]);
+	res.status(httpStatus.OK).json({
+		ok: true,
+		message: 'Avatar updated successfully',
+		data: user,
 	});
 });
 
