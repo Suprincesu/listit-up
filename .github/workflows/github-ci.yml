@@ -18,6 +18,6 @@ jobs:
     
       - name: Build and push to github registry
         run: |
-          docker login --username suprincesu --password ${{secrets.GH_TOKEN}} ghcr.io
-          docker build . -t ghcr.io/suprincesu/test-server-ghcr:latest
-          docker push ghcr.io/suprincesu/test-server-ghcr:latest
+          docker login --username ${{secrets.USERNAME}} --password ${{secrets.GH_TOKEN}} ghcr.io
+          docker build . -t ${{secrets.REPO_URL}}
+          docker push ${{secrets.REPO_URL}}
