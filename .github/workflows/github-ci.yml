@@ -1,0 +1,23 @@
+name: List-it-up
+
+on:
+  push:
+    branches: 
+      - development
+  pull_request:
+    branches:
+      - development
+
+jobs:
+  build: 
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+    
+      - name: Build and push to github registry
+        run: |
+          docker login --username suprincesu --password ${{secrets.GH_TOKEN}} ghcr.io
+          docker build . -t ghcr.io/suprincesu/test-server-ghcr:latest
+          docker push ghcr.io/suprincesu/test-server-ghcr:latest
